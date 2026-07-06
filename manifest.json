@@ -1,0 +1,23 @@
+{
+  "name": "শাহারিয়ার ঋণ ব্যবস্থাপনা",
+  "short_name": "ঋণ ব্যবস্থাপনা",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f4f0",
+  "theme_color": "#639922",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
