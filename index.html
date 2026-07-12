@@ -86,6 +86,11 @@ body{font-family:'Noto Sans Bengali','Bangla Sangam MN','Vrinda','Nirmala UI','N
 .date-chip-footer .version-badge{font-size:8.5px;line-height:1;opacity:.85;padding:0}
 .version-badge{font-size:10px;font-weight:700;background:var(--bg);color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:2px 9px;cursor:pointer;flex-shrink:0}
 .header-inner{display:flex;align-items:center;justify-content:space-between;margin-top:2px}
+body.no-glow-mode *,body.no-glow-mode *::before,body.no-glow-mode *::after{box-shadow:none!important;text-shadow:none!important;filter:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+body.no-glow-mode .title-brain-icon{filter:none!important}
+body.no-glow-mode .ai-glow-text::before,body.no-glow-mode .master-fab::after,body.no-glow-mode .master-fab-ring{display:none!important}
+body.no-motion-mode *,body.no-motion-mode *::before,body.no-motion-mode *::after{animation:none!important;-webkit-animation:none!important;transition:none!important}
+body.no-analysis-mode .analysis-block{display:none!important}
 body.perf-mode *,body.perf-mode *::before,body.perf-mode *::after{animation:none!important;-webkit-animation:none!important;transition:none!important;box-shadow:none!important;text-shadow:none!important;filter:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 body.perf-mode .title-brain-icon{filter:none!important}
 body.perf-mode .ai-glow-text::before,body.perf-mode .master-fab::after,body.perf-mode .master-fab-ring{display:none!important}
@@ -1445,10 +1450,10 @@ body.theme-alarmred ::-webkit-scrollbar-thumb{background:rgba(255,42,42,0.35);bo
   <div class="dashboard-container">
     <div class="main-amount-card" id="mainAmountBox"></div>
     <div class="live-interest-card" id="liveInterestCard" style="display:none"></div>
-    <div class="health-card" id="healthScoreBox"></div>
-    <div class="ai-box" id="weeklyDigestBox" style="display:none"></div>
-    <div class="ai-box" id="todayActionsBox"></div>
-    <div class="ai-box" id="milestoneBox" style="display:none"></div>
+    <div class="health-card analysis-block" id="healthScoreBox"></div>
+    <div class="ai-box analysis-block" id="weeklyDigestBox" style="display:none"></div>
+    <div class="ai-box analysis-block" id="todayActionsBox"></div>
+    <div class="ai-box analysis-block" id="milestoneBox" style="display:none"></div>
     <div class="chart-box" id="dashboardChartBox"></div>
     <div class="chart-box" id="distributionChartBox" style="display:none; flex-direction:column; padding-top:12px;"></div>
     <div class="chart-box" id="trendChartBox" style="display:none; flex-direction:column; padding-top:12px;"></div>
@@ -1458,7 +1463,7 @@ body.theme-alarmred ::-webkit-scrollbar-thumb{background:rgba(255,42,42,0.35);bo
     <div class="ai-box" id="payoffScenarioBox" style="display:none"></div>
     <div class="chart-box" id="yearlyRatioChartBox" style="display:none; flex-direction:column; padding-top:12px;"></div>
     <div class="summary" id="summaryGrid"></div>
-    <div class="ai-box" id="aiInsightsBox"></div>
+    <div class="ai-box analysis-block" id="aiInsightsBox"></div>
     <div class="ai-box" id="rateComparisonBox"></div>
     <div class="ai-box" id="overallAnalysisBox"></div>
   </div>
@@ -2940,9 +2945,27 @@ body.theme-alarmred ::-webkit-scrollbar-thumb{background:rgba(255,42,42,0.35);bo
       <label style="margin:0;flex:1" id="onlineModeLabel">🌐 অনলাইন মোড (ভবিষ্যতের ফিচার যেমন OCR/ম্যাপ প্রিভিউর জন্য — বন্ধ থাকলে অ্যাপ সম্পূর্ণ অফলাইনে চলবে, কোনো নেটওয়ার্ক কল যাবে না)</label>
       <button class="deed-radio-btn" id="onlineModeToggleBtn" style="flex:none;min-width:56px" onclick="toggleOnlineModeSetting()">Off</button>
     </div>
-    <div class="fg" style="display:flex;align-items:center;justify-content:space-between;gap:10px">
-      <label style="margin:0;flex:1" id="perfModeLabel">⚡ পারফরম্যান্স মোড — সব অ্যানিমেশন ও গ্লো ইফেক্ট বন্ধ করুন (App লোড হালকা ও দ্রুত হবে)</label>
-      <button class="deed-radio-btn" id="perfModeToggleBtn" style="flex:none;min-width:56px" onclick="togglePerfModeSetting()">Off</button>
+    <div class="fg" style="background:var(--card2);border-radius:12px;padding:10px 12px;margin-top:2px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px">
+        <label style="margin:0;flex:1;font-weight:800" id="perfMasterLabel">⚡ পারফরম্যান্স সেটিংস — শুধু ডেটা এন্ট্রির সময় সব বন্ধ রাখুন, ফোন কম গরম হবে</label>
+        <button class="deed-radio-btn" id="perfMasterToggleBtn" style="flex:none;min-width:56px" onclick="togglePerfMasterSetting()">On</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;padding-left:4px">
+        <label style="margin:0;flex:1;font-size:12.5px" id="glowModeLabel">✨ গ্লো / শ্যাডো ইফেক্ট</label>
+        <button class="deed-radio-btn" id="glowModeToggleBtn" style="flex:none;min-width:56px" onclick="toggleGlowModeSetting()">On</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;padding-left:4px">
+        <label style="margin:0;flex:1;font-size:12.5px" id="motionModeLabel">🎞️ মোশন / অ্যানিমেশন (ঘড়ি, কাউন্ট-আপ, রিপল)</label>
+        <button class="deed-radio-btn" id="motionModeToggleBtn" style="flex:none;min-width:56px" onclick="toggleMotionModeSetting()">On</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;padding-left:4px">
+        <label style="margin:0;flex:1;font-size:12.5px" id="analysisModeLabel">🧠 AI বিশ্লেষণ / ইনসাইটস / হেলথ স্কোর</label>
+        <button class="deed-radio-btn" id="analysisModeToggleBtn" style="flex:none;min-width:56px" onclick="toggleAnalysisModeSetting()">On</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-left:4px">
+        <label style="margin:0;flex:1;font-size:12.5px" id="refreshModeLabel">🔄 লাইভ রিফ্রেশ (প্রতি সেকেন্ডে সুদ আপডেট, নোটিফিকেশন চেক)</label>
+        <button class="deed-radio-btn" id="refreshModeToggleBtn" style="flex:none;min-width:56px" onclick="toggleRefreshModeSetting()">On</button>
+      </div>
     </div>
     <div class="fg" style="display:flex;align-items:center;justify-content:space-between;gap:10px">
       <label style="margin:0;flex:1" id="notifLabel">🔔 ডেডলাইনের দিন সকালে ব্রাউজার নোটিফিকেশন রিমাইন্ডার (শুধু অ্যাপ খোলা থাকা অবস্থায় কাজ করবে)</label>
@@ -4063,20 +4086,86 @@ function applyOnlineModeSetting(){
   toggleBtn.textContent = onlineModeEnabled ? 'On' : 'Off';
   toggleBtn.classList.toggle('active', onlineModeEnabled);
 }
-function applyPerfMode(){
-  const on = storageGet('app_perf_mode') === '1';
-  document.body.classList.toggle('perf-mode', on);
-  const btn = document.getElementById('perfModeToggleBtn');
+/* ===================== Granular Performance Controls (glow / motion / analysis / refresh) ===================== */
+function isGlowOn(){ return storageGet('app_glow_on') !== '0'; }
+function isMotionOn(){ return storageGet('app_motion_on') !== '0'; }
+function isAnalysisOn(){ return storageGet('app_analysis_on') !== '0'; }
+function isRefreshOn(){ return storageGet('app_refresh_on') !== '0'; }
+
+function applyGlowMode(){
+  const on = isGlowOn();
+  document.body.classList.toggle('no-glow-mode', !on);
+  const btn = document.getElementById('glowModeToggleBtn');
   if(btn){ btn.textContent = on ? 'On' : 'Off'; btn.classList.toggle('active', on); }
+  updatePerfMasterBtn();
 }
-function togglePerfModeSetting(){
-  const on = storageGet('app_perf_mode') === '1';
-  const next = !on;
-  storageSet('app_perf_mode', next ? '1' : '0');
-  applyPerfMode();
+function applyMotionMode(){
+  const on = isMotionOn();
+  document.body.classList.toggle('no-motion-mode', !on);
+  const btn = document.getElementById('motionModeToggleBtn');
+  if(btn){ btn.textContent = on ? 'On' : 'Off'; btn.classList.toggle('active', on); }
+  if(typeof restartLiveClockWidget==='function' && window._lcwReady) restartLiveClockWidget();
+  updatePerfMasterBtn();
+}
+function applyAnalysisMode(){
+  const on = isAnalysisOn();
+  document.body.classList.toggle('no-analysis-mode', !on);
+  const btn = document.getElementById('analysisModeToggleBtn');
+  if(btn){ btn.textContent = on ? 'On' : 'Off'; btn.classList.toggle('active', on); }
+  if(on){
+    if(typeof renderHealthScore==='function') try{renderHealthScore();}catch(e){}
+    if(typeof renderAIInsights==='function') try{renderAIInsights();}catch(e){}
+  }
+  updatePerfMasterBtn();
+}
+function applyRefreshMode(){
+  const on = isRefreshOn();
+  const btn = document.getElementById('refreshModeToggleBtn');
+  if(btn){ btn.textContent = on ? 'On' : 'Off'; btn.classList.toggle('active', on); }
+  if(typeof restartLiveIntervals==='function') restartLiveIntervals();
+  updatePerfMasterBtn();
+}
+function updatePerfMasterBtn(){
+  const btn = document.getElementById('perfMasterToggleBtn');
+  if(!btn) return;
+  const allOn = isGlowOn() && isMotionOn() && isAnalysisOn() && isRefreshOn();
+  const allOff = !isGlowOn() && !isMotionOn() && !isAnalysisOn() && !isRefreshOn();
+  btn.textContent = allOn ? 'On' : allOff ? 'Off' : 'Mixed';
+  btn.classList.toggle('active', allOn);
+}
+function toggleGlowModeSetting(){ storageSet('app_glow_on', isGlowOn()?'0':'1'); applyGlowMode(); }
+function toggleMotionModeSetting(){ storageSet('app_motion_on', isMotionOn()?'0':'1'); applyMotionMode(); }
+function toggleAnalysisModeSetting(){
+  const next = !isAnalysisOn();
+  storageSet('app_analysis_on', next?'1':'0');
+  applyAnalysisMode();
+  toast(next ? '🧠 AI বিশ্লেষণ চালু হয়েছে' : '🧠 AI বিশ্লেষণ বন্ধ — শুধু ডেটা দেখা যাবে, হিসাব চলবে না');
+}
+function toggleRefreshModeSetting(){
+  const next = !isRefreshOn();
+  storageSet('app_refresh_on', next?'1':'0');
+  applyRefreshMode();
+  toast(next ? '🔄 লাইভ রিফ্রেশ চালু হয়েছে' : '🔄 লাইভ রিফ্রেশ বন্ধ — সুদ/নোটিফিকেশন অটো-আপডেট হবে না');
+}
+function togglePerfMasterSetting(){
+  const allOn = isGlowOn() && isMotionOn() && isAnalysisOn() && isRefreshOn();
+  const next = !allOn; // if everything's already on, turn everything off; otherwise turn everything on
+  storageSet('app_glow_on', next?'1':'0');
+  storageSet('app_motion_on', next?'1':'0');
+  storageSet('app_analysis_on', next?'1':'0');
+  storageSet('app_refresh_on', next?'1':'0');
+  applyGlowMode(); applyMotionMode(); applyAnalysisMode(); applyRefreshMode();
   toast(next
-    ? '⚡ পারফরম্যান্স মোড চালু — সব অ্যানিমেশন ও গ্লো ইফেক্ট বন্ধ, অ্যাপ দ্রুত চলবে'
-    : '⚡ পারফরম্যান্স মোড বন্ধ — সব অ্যানিমেশন ও গ্লো ইফেক্ট আবার চালু হয়েছে');
+    ? '⚡ সব পারফরম্যান্স ফিচার চালু হয়েছে'
+    : '⚡ পারফরম্যান্স মোড: গ্লো, মোশন, বিশ্লেষণ ও লাইভ রিফ্রেশ সব বন্ধ — অ্যাপ এখন সবচেয়ে হালকা, শুধু ডেটা দেখা/এন্ট্রি করা যাবে');
+}
+function applyPerfMode(){ applyGlowMode(); applyMotionMode(); applyAnalysisMode(); applyRefreshMode(); }
+function restartLiveIntervals(){
+  if(typeof isRefreshOn==='function' && isRefreshOn()){
+    if(typeof renderTicker==='function') try{renderTicker();}catch(e){}
+    if(typeof renderLiveInterestCard==='function') try{renderLiveInterestCard();}catch(e){}
+    if(typeof checkAndFireDueNotifications==='function') try{checkAndFireDueNotifications();}catch(e){}
+  }
 }
 function toggleOnlineModeSetting(){
   onlineModeEnabled = !onlineModeEnabled;
@@ -5797,6 +5886,7 @@ function updateHomeScenarioSim(amount){
 function renderHealthScore(){
   const box=document.getElementById('healthScoreBox');
   if(!box) return;
+  if(typeof isAnalysisOn==="function" && !isAnalysisOn()){ box.innerHTML=""; return; }
   const h = calcPortfolioHealth();
   if(!h){ box.innerHTML = `<div class="health-title">💗 ${t('healthTitle')}</div><div class="ai-tip" style="margin-top:8px">${t('healthEmpty')}</div>`; return; }
   let hist=[]; try{ hist = JSON.parse(storageGet('health_score_history')||'[]'); }catch(e){ hist=[]; }
@@ -6178,6 +6268,8 @@ function earlyWarningList(){
 }
 function renderAIInsights(){
   const box=document.getElementById('aiInsightsBox');
+  if(!box) return;
+  if(typeof isAnalysisOn==="function" && !isAnalysisOn()){ box.innerHTML=""; return; }
   const ranked=rankLoansForPayoff();
   const overdueCount = ranked.filter(r=>r.overdue).length;
   if(!ranked.length){
@@ -8065,6 +8157,7 @@ function toggleNotifSetting(){
   }
 }
 function checkAndFireDueNotifications(){
+  if(typeof isRefreshOn==='function' && !isRefreshOn()) return; // paused by user in Performance settings
   if(storageGet('notif_enabled')!=='1') return;
   if(!('Notification' in window) || Notification.permission!=='granted') return;
   const todayStr = today();
@@ -8196,7 +8289,7 @@ function renderTicker(){
 }
 if(!window._tickerRotateStarted){
   window._tickerRotateStarted=true;
-  setInterval(()=>{ if(!document.hidden && document.getElementById('tickerTrack')) renderTicker(); }, 25000);
+  setInterval(()=>{ if(typeof isRefreshOn==='function' && !isRefreshOn()) return; if(!document.hidden && document.getElementById('tickerTrack')) renderTicker(); }, 25000);
 }
 function jumpToDangerLoans(){
   if(viewMode!=='loans') setViewMode('loans');
@@ -10317,6 +10410,7 @@ function validateEntryInputs(date, amount, list){
 function renderInsights(){
   const body=document.getElementById('insightsBody');
   if(!body) return;
+  if(typeof isAnalysisOn==='function' && !isAnalysisOn()){ body.innerHTML='<div class="ai-tip" style="padding:20px;text-align:center">🧠 AI বিশ্লেষণ বন্ধ আছে। সেটিংস থেকে চালু করুন।</div>'; return; }
   const health=debtHealthScore();
   const risk=unifiedRiskList();
   const forecast=cashFlowForecast();
@@ -12486,6 +12580,7 @@ function initLiveInterestTicker(){
     let _lastTick = Date.now();
     window._liveInterestInterval = setInterval(()=>{
       if(document.hidden) return; // pause work while app is backgrounded/inactive
+      if(typeof isRefreshOn==='function' && !isRefreshOn()) return; // paused by user in Performance settings
       const now = Date.now();
       const elapsedSec = (now - _lastTick) / 1000;
       _lastTick = now;
@@ -12652,7 +12747,7 @@ function toggleAmountHidden(){
 function animateMainAmount(from, to){
   const el = document.getElementById('mainAmountValue');
   if(!el) return;
-  if(from===to || document.body.classList.contains('perf-mode')){ el.textContent = fmtBDT(to); return; }
+  if(from===to || document.body.classList.contains('perf-mode') || document.body.classList.contains('no-motion-mode')){ el.textContent = fmtBDT(to); return; }
   const dur = 750;
   const start = performance.now();
   function step(now){
@@ -16527,7 +16622,7 @@ function renderDecisionSuggestionsCard(){
 /* ================= Bento-grid Quick-Glance Home Layout (Tier 2) — priority-sized tiles, pure HTML/CSS, no libs ================= */
 function animateCounts(container){
   if(!container) return;
-  const perfMode = document.body.classList.contains('perf-mode');
+  const perfMode = document.body.classList.contains('perf-mode') || document.body.classList.contains('no-motion-mode');
   const els = container.querySelectorAll('.count-num');
   els.forEach(el=>{
     const target = parseFloat(el.getAttribute('data-target'));
@@ -16547,7 +16642,7 @@ function animateCounts(container){
   });
 }
 document.addEventListener('pointerdown',function(e){
-  if(document.body.classList.contains('perf-mode')) return;
+  if(document.body.classList.contains('perf-mode') || document.body.classList.contains('no-motion-mode')) return;
   const tile=e.target.closest('.bento-tile');
   if(!tile) return;
   const rect=tile.getBoundingClientRect();
@@ -17189,9 +17284,21 @@ function updateLiveClockWidget(){
     }
   }
 }
+function restartLiveClockWidget(){
+  if(window._lcwRafId){ cancelAnimationFrame(window._lcwRafId); window._lcwRafId=null; }
+  if(window._lcwIntervalId){ clearInterval(window._lcwIntervalId); window._lcwIntervalId=null; }
+  if(typeof isMotionOn==='function' && !isMotionOn()){
+    // Motion off: update once a second instead of 60x/sec — same accuracy, ~98% less CPU/heat, no sweeping ring animation
+    updateLiveClockWidget();
+    window._lcwIntervalId = setInterval(updateLiveClockWidget, 1000);
+  } else {
+    function tick(){ updateLiveClockWidget(); window._lcwRafId = requestAnimationFrame(tick); }
+    window._lcwRafId = requestAnimationFrame(tick);
+  }
+}
 function initLiveClockWidget(){
-  function tick(){ updateLiveClockWidget(); requestAnimationFrame(tick); }
-  requestAnimationFrame(tick);
+  window._lcwReady = true;
+  restartLiveClockWidget();
 }
 renderTodayDate();
 renderSettingsMeta();
@@ -36252,7 +36359,13 @@ function App() {
   /*#__PURE__*/React.createElement(CustomAlertRulesCard, { rules: alertRules, entries: entries, cats: cats, items: items, theme: theme, onManage: () => setShowAlertRules(true) }),
   /*#__PURE__*/React.createElement(OverviewCarousel, { entries: entries, cats: cats, filtered: filtered, theme: theme, budgets: budgets }),
   /*#__PURE__*/React.createElement(OverviewExtrasCard, { entries: entries, theme: theme }),
-  /*#__PURE__*/React.createElement(AutoInsightsCard, { entries: entries, cats: cats, theme: theme, budgets: budgets, items: items }),
+  (function(){
+    const analysisOn = typeof isAnalysisOn==='function' ? isAnalysisOn() : true;
+    if(!analysisOn){
+      return /*#__PURE__*/React.createElement("div", { style:{padding:"18px 14px",textAlign:"center",color:"#8E8E93",fontSize:12,opacity:0.8} }, "🧠 AI বিশ্লেষণ বন্ধ আছে — সেটিংস থেকে চালু করুন");
+    }
+    return /*#__PURE__*/React.createElement(AutoInsightsCard, { entries: entries, cats: cats, theme: theme, budgets: budgets, items: items });
+  })(),
   ((cats||{}).expenses||[]).map(cat => {
     if (!cat.sub) return null;
     const catEntries = filtered.filter(e => e.catId === cat.id && e.type === "expense");
